@@ -1,0 +1,65 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# Load the Android build Rules
+RULES_ANDROID_TAG = "0.1.1"
+RULES_ANDROID_SHA = "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806"
+
+http_archive(
+    name = "build_bazel_rules_android",
+    urls = ["https://github.com/bazelbuild/rules_android/archive/v%s.zip" % RULES_ANDROID_TAG],
+    sha256 = RULES_ANDROID_SHA,
+    strip_prefix = "rules_android-%s" % RULES_ANDROID_TAG,
+)
+
+# Configure Android SDK Path
+load("@build_bazel_rules_android//android:rules.bzl", "android_sdk_repository")
+android_sdk_repository(
+    name = "androidsdk",
+    path = "/Users/anuthomaschandy/Library/Android/sdk", # Path to Android SDK, optional if $ANDROID_HOME is set
+)
+
+# Load Android Test Support
+ANDROID_TEST_TAG = "1.2.0"
+ANDROID_TEST_SHA = "2accf492173a803f7979b09c93e0f7d945cf34f672a576d6ce80be4ecefa4d23"
+
+http_archive(
+    name = "android_test_support",
+    urls = ["https://github.com/android/android-test/archive/androidx-test-%s.zip" % ANDROID_TEST_TAG],
+    sha256 = ANDROID_TEST_SHA,
+    strip_prefix = "android-test-androidx-test-%s" % ANDROID_TEST_TAG,
+)
+load("@android_test_support//:repo.bzl", "android_test_repositories")
+android_test_repositories()
+
+
+# Load the JVM External Tag Rule
+RULES_JVM_EXTERNAL_TAG = "2.0.1"
+RULES_JVM_EXTERNAL_SHA = "55e8d3951647ae3dffde22b4f7f8dee11b3f70f3f89424713debd7076197eaca"
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    urls = ["https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG],
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = [
+        "junit:junit:4.12",
+        "javax.inject:javax.inject:1",
+        "org.hamcrest:java-hamcrest:2.0.0.0",
+        "androidx.test.espresso:espresso-core:3.1.1",
+        "androidx.test:rules:aar:1.1.1",
+        "androidx.test:runner:aar:1.1.1",
+        "androidx.test:core:1.1.0",
+        "androidx.test.ext:junit:1.0.0",
+        "androidx.test.ext:truth:1.0.0",
+    ],
+    repositories = [
+        "https://jcenter.bintray.com/",
+        "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
+    ],
+)
