@@ -15,4 +15,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/surface_view" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_ok"
+        android:layout_gravity="bottom"
+        android:onClick="onOkClick"
+        android:text="@string/btnOk"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_result"
+        android:background="@android:drawable/editbox_background"
+        android:textColor="@android:color/black"
+        android:text="@string/resultTxtValue" />
 </FrameLayout>
